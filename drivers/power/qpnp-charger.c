@@ -2143,6 +2143,34 @@ qpnp_chg_bat_if_configure_btc(struct qpnp_chg_chip *chip)
 			mask, btc_cfg, 1);
 }
 
+int power_supply_chg_vinmin_set(int mv)
+{
+	struct power_supply *psy;
+	struct qpnp_chg_chip *chip;
+
+	psy = power_supply_get_by_name("battery");
+	if (!psy) {
+		pr_debug("Called before probe\n");
+		return 0;
+	}
+
+	chip = container_of(psy, struct qpnp_chg_chip, batt_psy);
+	if (!chip) {
+		pr_debug("chip is not initialized\n");
+		return 0;
+	}
+
+	if (chip->min_voltage_mv == mv) {
+		pr_debug("No change min voltage=%dmV\n", mv);
+		return 0;
+	}
+
+	pr_debug("set voltage=%dmV from ext\n", mv);
+	chip->min_voltage_mv = mv;
+	return qpnp_chg_vinmin_set(chip, mv);
+}
+EXPORT_SYMBOL_GPL(power_supply_chg_vinmin_set);
+
 #define QPNP_CHG_IBATSAFE_MIN_MA		200
 #define QPNP_CHG_IBATSAFE_MAX_MA		3000
 #define QPNP_CHG_I_STEP_MA		50

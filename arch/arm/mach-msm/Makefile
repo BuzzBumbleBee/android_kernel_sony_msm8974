@@ -322,8 +322,18 @@ obj-$(CONFIG_MACH_SAPPHIRE) += board-sapphire-rfkill.o msm_vibrator.o
 
 ifdef CONFIG_MACH_SONY_TOGARI_ROW
 	obj-$(CONFIG_MACH_SONY_TOGARI_ROW) += board-sony_togari_row-gpiomux.o bms-batterydata-burton.o
+else ifdef CONFIG_MACH_SONY_TOGARI_WINDY
+	obj-$(CONFIG_MACH_SONY_TOGARI_WINDY) += board-sony_togari_windy-gpiomux.o bms-batterydata-burton.o
+else ifdef CONFIG_MACH_SONY_TOGARI_BRAZIL
+	obj-$(CONFIG_MACH_SONY_TOGARI_BRAZIL) += board-sony_togari_brazil-gpiomux.o bms-batterydata-burton.o
 else ifdef CONFIG_MACH_SONY_HONAMI_ROW
 	obj-$(CONFIG_MACH_SONY_HONAMI_ROW) += board-sony_honami_row-gpiomux.o bms-batterydata-salomon.o
+else ifdef CONFIG_MACH_SONY_HONAMI_TMOUS
+	obj-$(CONFIG_MACH_SONY_HONAMI_TMOUS) += board-sony_honami_tmous-gpiomux.o bms-batterydata-salomon.o
+else ifdef CONFIG_MACH_SONY_HONAMI_BRAZIL
+	obj-$(CONFIG_MACH_SONY_HONAMI_BRAZIL) += board-sony_honami_brazil-gpiomux.o bms-batterydata-salomon.o
+else ifdef CONFIG_MACH_SONY_AMAMI_ROW
+	obj-$(CONFIG_MACH_SONY_AMAMI_ROW) += board-sony_amami_row-gpiomux.o bms-batterydata-ray.o
 else
 	obj-$(CONFIG_ARCH_MSM8974) += board-8974-gpiomux.o
 endif
@@ -449,3 +459,4 @@ CFLAGS_board-rdtags.o  := \
 	-D"INFO_VARIANT= \
 	\"$(if $(TARGET_BUILD_VARIANT),$(TARGET_BUILD_VARIANT),unknown)\"" \
 	-D"INFO_BUILDID=\"$(if $(SEMC_SYSTEM_VERSION),$(SEMC_SYSTEM_VERSION),private)\""
+CFLAGS_board-8974-console.o += -Idrivers/staging/android
